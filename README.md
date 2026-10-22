@@ -12,103 +12,105 @@ Its core principle is:
 
 ---
 
-# Table of Contents
+## Table of Contents
 
-1. Overview
-2. Problem
-3. Goals
-4. Non-Goals
-5. Core Architectural Principles
-6. System Capabilities
-7. High-Level Architecture
-8. Frontend → Backend → LangGraph Architecture
-9. Investigation Trigger Model
-10. Transaction Lifecycle
-11. Investigation Workflow
-12. AI Agent Architecture
-13. Agent Responsibilities
-14. Reconciliation Architecture
-15. Overpayment Detection
-16. Evidence Architecture
-17. Retrieval Architecture
-18. PostgreSQL Financial Relationships
-19. Neo4j Knowledge Graph
-20. Pinecone Investigation Memory
-21. Document Intelligence
-22. Investigation Output Contract
-23. AI-Generated Customer Communication
-24. Human Approval Architecture
-25. Reject & Escalate Flow
-26. Manager Escalation
-27. Manager Decision Flow
-28. Customer Payment Recovery
-29. Overpayment Refund Flow
-30. Accounting Provider
-31. Journal Entry Execution
-32. Verification
-33. Financial State Machine
-34. Frontend Architecture
-35. Financial Close Dashboard
-36. Transaction List
-37. Transaction Investigation Page
-38. Evidence Presentation
-39. Agent Findings UI
-40. Customer Email Draft UI
-41. Manager Escalation UI
-42. Search and Filtering
-43. Contextual Page Search
-44. Navigation and Back Behavior
-45. User Account Records
-46. Frontend State Synchronization
-47. API Architecture
-48. API Endpoints
-49. Data Model
-50. Investigation Persistence
-51. Redis and ARQ
-52. LangGraph Persistence
-53. LLM Provider Architecture
-54. LLM Fallback Strategy
-55. Insight Schema
-56. AgentMail
-57. Notification Failure Semantics
-58. Security
-59. Authentication and Authorization
-60. Idempotency
-61. Accounting Period Safety
-62. Auditability
-63. Observability
-64. Evaluation
-65. Testing Strategy
-66. Failure and Recovery
-67. Deployment Architecture
-68. Environment Variables
-69. External Services
-70. Technology Stack
-71. Design Tradeoffs
-72. Example Investigation
-73. Repository Structure
-74. Development Principles
-75. Final Architecture
+1. [Overview](#section-1-overview)
+2. [Problem](#section-2-problem)
+3. [Goals](#section-3-goals)
+4. [Non-Goals](#section-4-non-goals)
+5. [Core Architectural Principles](#section-5-core-architectural-principles)
+6. [System Capabilities](#section-6-system-capabilities)
+7. [High-Level Architecture](#section-7-high-level-architecture)
+8. [Frontend → Backend → LangGraph Architecture](#section-8-frontend-backend-langgraph-architecture)
+9. [Investigation Trigger Model](#section-9-investigation-trigger-model)
+10. [Transaction Lifecycle](#section-10-transaction-lifecycle)
+11. [Investigation Workflow](#section-11-investigation-workflow)
+12. [AI Agent Architecture](#section-12-ai-agent-architecture)
+13. [Agent Responsibilities](#section-13-agent-responsibilities)
+14. [Reconciliation Architecture](#section-14-reconciliation-architecture)
+15. [Overpayment Detection](#section-15-overpayment-detection)
+16. [Evidence Architecture](#section-16-evidence-architecture)
+17. [Retrieval Architecture](#section-17-retrieval-architecture)
+18. [PostgreSQL Financial Relationships](#section-18-postgresql-financial-relationships)
+19. [Neo4j Knowledge Graph](#section-19-neo4j-knowledge-graph)
+20. [Pinecone Investigation Memory](#section-20-pinecone-investigation-memory)
+21. [Document Intelligence](#section-21-document-intelligence)
+22. [Investigation Output Contract](#section-22-investigation-output-contract)
+23. [AI-Generated Customer Communication](#section-23-ai-generated-customer-communication)
+24. [Human Approval Architecture](#section-24-human-approval-architecture)
+25. [Reject & Escalate Flow](#section-25-reject-and-escalate-flow)
+26. [Manager Escalation](#section-26-manager-escalation)
+27. [Manager Decision Flow](#section-27-manager-decision-flow)
+28. [Customer Payment Recovery](#section-28-customer-payment-recovery)
+29. [Overpayment Refund Flow](#section-29-overpayment-refund-flow)
+30. [Accounting Provider](#section-30-accounting-provider)
+31. [Journal Entry Execution](#section-31-journal-entry-execution)
+32. [Verification](#section-32-verification)
+33. [Financial State Machine](#section-33-financial-state-machine)
+34. [Frontend Architecture](#section-34-frontend-architecture)
+35. [Financial Close Dashboard](#section-35-financial-close-dashboard)
+36. [Transaction List](#section-36-transaction-list)
+37. [Transaction Investigation Page](#section-37-transaction-investigation-page)
+38. [Evidence Presentation](#section-38-evidence-presentation)
+39. [Agent Findings UI](#section-39-agent-findings-ui)
+40. [Customer Email Draft UI](#section-40-customer-email-draft-ui)
+41. [Manager Escalation UI](#section-41-manager-escalation-ui)
+42. [Search and Filtering](#section-42-search-and-filtering)
+43. [Contextual Page Search](#section-43-contextual-page-search)
+44. [Navigation and Back Behavior](#section-44-navigation-and-back-behavior)
+45. [User Account Records](#section-45-user-account-records)
+46. [Frontend State Synchronization](#section-46-frontend-state-synchronization)
+47. [API Architecture](#section-47-api-architecture)
+48. [API Endpoints](#section-48-api-endpoints)
+49. [Data Model](#section-49-data-model)
+50. [Investigation Persistence](#section-50-investigation-persistence)
+51. [Redis and ARQ](#section-51-redis-and-arq)
+52. [LangGraph Persistence](#section-52-langgraph-persistence)
+53. [LLM Provider Architecture](#section-53-llm-provider-architecture)
+54. [LLM Fallback Strategy](#section-54-llm-fallback-strategy)
+55. [Insight Schema](#section-55-insight-schema)
+56. [AgentMail](#section-56-agentmail)
+57. [Notification Failure Semantics](#section-57-notification-failure-semantics)
+58. [Security](#section-58-security)
+59. [Authentication and Authorization](#section-59-authentication-and-authorization)
+60. [Idempotency](#section-60-idempotency)
+61. [Accounting Period Safety](#section-61-accounting-period-safety)
+62. [Auditability](#section-62-auditability)
+63. [Observability](#section-63-observability)
+64. [Evaluation](#section-64-evaluation)
+65. [Testing Strategy](#section-65-testing-strategy)
+66. [Failure and Recovery](#section-66-failure-and-recovery)
+67. [Deployment Architecture](#section-67-deployment-architecture)
+68. [Environment Variables](#section-68-environment-variables)
+69. [External Services](#section-69-external-services)
+70. [Technology Stack](#section-70-technology-stack)
+71. [Design Tradeoffs](#section-71-design-tradeoffs)
+72. [Example Investigation](#section-72-example-investigation)
+73. [Repository Structure](#section-73-repository-structure)
+74. [Development Principles](#section-74-development-principles)
+75. [Final Architecture](#section-75-final-architecture)
 
 ---
 
-# 1. Overview
+<a id="section-1-overview"></a>
+
+## 1. Overview
 
 The AI Financial Close & Reconciliation Platform helps finance teams investigate discrepancies during financial close.
 
 Instead of requiring an administrator to manually inspect:
 
-* invoices
-* payments
-* bank transactions
-* ledger entries
-* customers
-* credit notes
-* refunds
-* accounting policies
-* approval records
-* previous investigations
-* supporting documents
+- invoices
+- payments
+- bank transactions
+- ledger entries
+- customers
+- credit notes
+- refunds
+- accounting policies
+- approval records
+- previous investigations
+- supporting documents
 
 the platform creates a structured investigation around a specific transaction.
 
@@ -145,7 +147,9 @@ Financial modifications always require explicit authorization.
 
 ---
 
-# 2. Problem
+<a id="section-2-problem"></a>
+
+## 2. Problem
 
 Financial reconciliation is a cross-system reasoning problem.
 
@@ -189,14 +193,14 @@ Difference:    $1,615.86
 
 The discrepancy could represent:
 
-* overpayment
-* unapplied cash
-* duplicate payment
-* incorrect invoice amount
-* timing difference
-* incorrect ledger entry
-* refund that was not recorded
-* payment applied to the wrong invoice
+- overpayment
+- unapplied cash
+- duplicate payment
+- incorrect invoice amount
+- timing difference
+- incorrect ledger entry
+- refund that was not recorded
+- payment applied to the wrong invoice
 
 The system therefore separates:
 
@@ -222,115 +226,121 @@ Resolution
 
 ---
 
-# 3. Goals
+<a id="section-3-goals"></a>
+
+## 3. Goals
 
 The system must:
 
-* reduce manual investigation effort
-* preserve an evidence trail
-* explain why an AI reached a conclusion
-* expose the financial relationships behind each transaction
-* allow administrators to investigate transactions individually
-* never automatically investigate every transaction merely because it exists
-* support deterministic reconciliation
-* support AI-assisted investigation
-* support Human-in-the-Loop approval
-* support manager escalation
-* support customer communication drafts
-* support payment recovery
-* support overpayment/refund workflows
-* preserve complete audit history
-* support durable workflow execution
-* support worker restarts
-* support retries
-* prevent duplicate financial mutations
-* protect accounting periods
-* provide searchable and filterable financial data
-* make every investigation understandable to a finance administrator
+- reduce manual investigation effort
+- preserve an evidence trail
+- explain why an AI reached a conclusion
+- expose the financial relationships behind each transaction
+- allow administrators to investigate transactions individually
+- never automatically investigate every transaction merely because it exists
+- support deterministic reconciliation
+- support AI-assisted investigation
+- support Human-in-the-Loop approval
+- support manager escalation
+- support customer communication drafts
+- support payment recovery
+- support overpayment/refund workflows
+- preserve complete audit history
+- support durable workflow execution
+- support worker restarts
+- support retries
+- prevent duplicate financial mutations
+- protect accounting periods
+- provide searchable and filterable financial data
+- make every investigation understandable to a finance administrator
 
 ---
 
-# 4. Non-Goals
+<a id="section-4-non-goals"></a>
+
+## 4. Non-Goals
 
 The system must not:
 
-* allow an LLM to directly modify financial records
-* allow the browser to access PostgreSQL directly
-* allow the browser to access Pinecone directly
-* allow the browser to access Neo4j directly
-* allow the browser to access accounting APIs directly
-* automatically investigate every transaction
-* automatically approve financial recommendations
-* automatically post financial adjustments
-* treat Pinecone as financial truth
-* treat Neo4j as financial truth
-* treat an LLM response as financial truth
-* silently modify closed accounting periods
-* expose secrets through frontend code
-* mark an unresolved payment discrepancy as resolved simply because an email was sent
+- allow an LLM to directly modify financial records
+- allow the browser to access PostgreSQL directly
+- allow the browser to access Pinecone directly
+- allow the browser to access Neo4j directly
+- allow the browser to access accounting APIs directly
+- automatically investigate every transaction
+- automatically approve financial recommendations
+- automatically post financial adjustments
+- treat Pinecone as financial truth
+- treat Neo4j as financial truth
+- treat an LLM response as financial truth
+- silently modify closed accounting periods
+- expose secrets through frontend code
+- mark an unresolved payment discrepancy as resolved simply because an email was sent
 
 ---
 
-# 5. Core Architectural Principles
+<a id="section-5-core-architectural-principles"></a>
 
-## 5.1 PostgreSQL is the source of truth
+## 5. Core Architectural Principles
+
+### 5.1 PostgreSQL is the source of truth
 
 PostgreSQL owns authoritative application and financial state.
 
 This includes:
 
-* transactions
-* invoices
-* payments
-* customers
-* bank transactions
-* ledger entries
-* journal entries
-* discrepancies
-* investigations
-* evidence metadata
-* recommendations
-* approvals
-* adjustments
-* payment requests
-* refunds
-* accounting periods
-* audit events
-* notifications
-* workflow state
+- transactions
+- invoices
+- payments
+- customers
+- bank transactions
+- ledger entries
+- journal entries
+- discrepancies
+- investigations
+- evidence metadata
+- recommendations
+- approvals
+- adjustments
+- payment requests
+- refunds
+- accounting periods
+- audit events
+- notifications
+- workflow state
 
 Pinecone, Neo4j, Redis, the frontend, and external providers are not authoritative.
 
 ---
 
-## 5.2 AI investigates; deterministic systems validate
+### 5.2 AI investigates; deterministic systems validate
 
 LLMs may perform:
 
-* reasoning
-* hypothesis generation
-* document interpretation
-* policy interpretation
-* evidence synthesis
-* root-cause analysis
-* explanation generation
-* communication drafting
+- reasoning
+- hypothesis generation
+- document interpretation
+- policy interpretation
+- evidence synthesis
+- root-cause analysis
+- explanation generation
+- communication drafting
 
 Deterministic code must handle:
 
-* financial arithmetic
-* amount calculations
-* reconciliation
-* journal validation
-* accounting period validation
-* authorization
-* state transitions
-* idempotency
-* financial mutations
+- financial arithmetic
+- amount calculations
+- reconciliation
+- journal validation
+- accounting period validation
+- authorization
+- state transitions
+- idempotency
+- financial mutations
 
 ---
 
-## 5.3 Humans control financial modifications
+### 5.3 Humans control financial modifications
 
 The AI can recommend:
 
@@ -366,7 +376,7 @@ Verification
 
 ---
 
-## 5.4 Every important conclusion requires evidence
+### 5.4 Every important conclusion requires evidence
 
 An investigation should never simply display:
 
@@ -395,37 +405,41 @@ Evidence:
 
 ---
 
-# 6. System Capabilities
+<a id="section-6-system-capabilities"></a>
 
-| Capability                     | Implementation             |
-| ------------------------------ | -------------------------- |
-| Financial ingestion            | API / CSV / documents      |
-| Reconciliation                 | Deterministic Python logic |
-| Investigation                  | LangGraph                  |
-| Structured financial state     | PostgreSQL                 |
-| Background execution           | Redis + ARQ                |
-| Semantic retrieval             | Vector search              |
-| Keyword retrieval              | BM25                       |
-| Reranking                      | Cross Encoder              |
-| Graph reasoning                | Neo4j                      |
-| Previous investigations        | Pinecone                   |
-| Document intelligence          | Qwen2.5-VL-72B             |
-| Investigation reasoning        | Llama 3.3 70B              |
-| LLM fallback                   | Llama 3.1 8B               |
-| Policy analysis                | LLM + retrieval            |
-| Human approval                 | FastAPI + LangGraph        |
-| Customer email drafting        | LLM                        |
-| Customer email sending         | AgentMail                  |
-| Manager escalation             | Slack                      |
-| Financial mutations            | AccountingProvider         |
-| Accounting development backend | MockAccountingProvider     |
-| Observability                  | Langfuse                   |
-| Frontend                       | Next.js + React            |
-| Frontend data synchronization  | React Query                |
+## 6. System Capabilities
+
+| Capability | Implementation |
+|---|---|
+| Financial ingestion | API / CSV / documents |
+| Reconciliation | Deterministic Python logic |
+| Investigation | LangGraph |
+| Structured financial state | PostgreSQL |
+| Background execution | Redis + ARQ |
+| Semantic retrieval | Vector search |
+| Keyword retrieval | BM25 |
+| Reranking | Cross Encoder |
+| Graph reasoning | Neo4j |
+| Previous investigations | Pinecone |
+| Document intelligence | Qwen2.5-VL-72B |
+| Investigation reasoning | Llama 3.3 70B |
+| LLM fallback | Llama 3.1 8B |
+| Policy analysis | LLM + retrieval |
+| Human approval | FastAPI + LangGraph |
+| Customer email drafting | LLM |
+| Customer email sending | AgentMail |
+| Manager escalation | Slack |
+| Financial mutations | AccountingProvider |
+| Accounting development backend | MockAccountingProvider |
+| Observability | Langfuse |
+| Frontend | Next.js + React |
+| Frontend data synchronization | React Query |
 
 ---
 
-# 7. High-Level Architecture
+<a id="section-7-high-level-architecture"></a>
+
+## 7. High-Level Architecture
 
 ```mermaid
 flowchart TB
@@ -495,7 +509,9 @@ flowchart TB
 
 ---
 
-# 8. Frontend → Backend → LangGraph Architecture
+<a id="section-8-frontend-backend-langgraph-architecture"></a>
+
+## 8. Frontend → Backend → LangGraph Architecture
 
 The browser must never call privileged services directly.
 
@@ -563,9 +579,11 @@ Accounting Provider
 
 ---
 
-# 9. Investigation Trigger Model
+<a id="section-9-investigation-trigger-model"></a>
 
-## Critical rule
+## 9. Investigation Trigger Model
+
+### Critical rule
 
 **Transactions must not automatically run AI investigations.**
 
@@ -616,7 +634,9 @@ Investigate
 
 ---
 
-# 10. Transaction Lifecycle
+<a id="section-10-transaction-lifecycle"></a>
+
+## 10. Transaction Lifecycle
 
 Every transaction has a persisted backend-controlled status.
 
@@ -642,7 +662,9 @@ FAILED
 
 ---
 
-# 11. Investigation Workflow
+<a id="section-11-investigation-workflow"></a>
+
+## 11. Investigation Workflow
 
 ```mermaid
 flowchart TD
@@ -682,7 +704,9 @@ flowchart TD
 
 ---
 
-# 12. AI Agent Architecture
+<a id="section-12-ai-agent-architecture"></a>
+
+## 12. AI Agent Architecture
 
 The investigation uses specialized nodes/agents.
 
@@ -732,9 +756,11 @@ flowchart TB
 
 ---
 
-# 13. Agent Responsibilities
+<a id="section-13-agent-responsibilities"></a>
 
-## Reconciliation Agent
+## 13. Agent Responsibilities
+
+### Reconciliation Agent
 
 Consumes deterministic reconciliation results.
 
@@ -742,35 +768,35 @@ It must not calculate authoritative financial amounts itself.
 
 It explains:
 
-* expected amount
-* actual amount
-* difference
-* matching status
-* missing records
-* duplicate records
-* overpayment
-* underpayment
+- expected amount
+- actual amount
+- difference
+- matching status
+- missing records
+- duplicate records
+- overpayment
+- underpayment
 
 ---
 
-## Financial Records Agent
+### Financial Records Agent
 
 Retrieves:
 
-* transaction
-* invoice
-* payment
-* customer
-* account
-* ledger
-* bank transaction
-* credit note
-* refund
-* previous adjustments
+- transaction
+- invoice
+- payment
+- customer
+- account
+- ledger
+- bank transaction
+- credit note
+- refund
+- previous adjustments
 
 ---
 
-## Document Retrieval Agent
+### Document Retrieval Agent
 
 Retrieves supporting documents.
 
@@ -790,20 +816,20 @@ agent
 
 ---
 
-## Policy Agent
+### Policy Agent
 
 Retrieves:
 
-* accounting policies
-* approval policies
-* discount policies
-* refund policies
-* payment policies
-* period policies
+- accounting policies
+- approval policies
+- discount policies
+- refund policies
+- payment policies
+- period policies
 
 ---
 
-## Graph Agent
+### Graph Agent
 
 Uses Neo4j to understand relationships such as:
 
@@ -823,7 +849,7 @@ Account
 
 ---
 
-## Precedent Agent
+### Precedent Agent
 
 Queries Pinecone for similar resolved investigations.
 
@@ -833,7 +859,7 @@ They cannot override PostgreSQL.
 
 ---
 
-## Root Cause Agent
+### Root Cause Agent
 
 Produces:
 
@@ -847,18 +873,18 @@ reasoning_summary
 
 ---
 
-## Communication Agent
+### Communication Agent
 
 Creates:
 
-* customer email draft
-* manager escalation draft
+- customer email draft
+- manager escalation draft
 
 It does not send them automatically unless the workflow explicitly reaches the relevant authorized notification step.
 
 ---
 
-## Final Summary Agent
+### Final Summary Agent
 
 Produces a complete human-readable summary.
 
@@ -879,7 +905,9 @@ Required human decision
 
 ---
 
-# 14. Reconciliation Architecture
+<a id="section-14-reconciliation-architecture"></a>
+
+## 14. Reconciliation Architecture
 
 Financial calculations are deterministic.
 
@@ -913,7 +941,9 @@ It does not replace it.
 
 ---
 
-# 15. Overpayment Detection
+<a id="section-15-overpayment-detection"></a>
+
+## 15. Overpayment Detection
 
 Overpayment is handled deterministically.
 
@@ -967,7 +997,9 @@ Generated draft explaining the next step.
 
 ---
 
-# 16. Evidence Architecture
+<a id="section-16-evidence-architecture"></a>
+
+## 16. Evidence Architecture
 
 Evidence is a first-class object.
 
@@ -1004,7 +1036,9 @@ contradicts
 
 ---
 
-# 17. Retrieval Architecture
+<a id="section-17-retrieval-architecture"></a>
+
+## 17. Retrieval Architecture
 
 ```mermaid
 flowchart TD
@@ -1042,7 +1076,9 @@ Historical precedent should use Pinecone.
 
 ---
 
-# 18. PostgreSQL Financial Relationships
+<a id="section-18-postgresql-financial-relationships"></a>
+
+## 18. PostgreSQL Financial Relationships
 
 PostgreSQL should provide the authoritative financial relationships displayed to the admin.
 
@@ -1068,7 +1104,9 @@ Transaction
 
 ---
 
-# 19. Neo4j Knowledge Graph
+<a id="section-19-neo4j-knowledge-graph"></a>
+
+## 19. Neo4j Knowledge Graph
 
 Neo4j represents relationships.
 
@@ -1107,7 +1145,9 @@ What previous cases involved this customer, invoice, policy, and payment relatio
 
 ---
 
-# 20. Pinecone Investigation Memory
+<a id="section-20-pinecone-investigation-memory"></a>
+
+## 20. Pinecone Investigation Memory
 
 Resolved investigations are stored in Pinecone as precedent.
 
@@ -1142,17 +1182,19 @@ Pinecone is precedent, not truth.
 
 ---
 
-# 21. Document Intelligence
+<a id="section-21-document-intelligence"></a>
+
+## 21. Document Intelligence
 
 Documents may include:
 
-* invoices
-* receipts
-* bank statements
-* credit notes
-* refund documents
-* approval documents
-* journal support
+- invoices
+- receipts
+- bank statements
+- credit notes
+- refund documents
+- approval documents
+- journal support
 
 Pipeline:
 
@@ -1178,7 +1220,9 @@ Every document retrieval result must preserve the page number when page-level in
 
 ---
 
-# 22. Investigation Output Contract
+<a id="section-22-investigation-output-contract"></a>
+
+## 22. Investigation Output Contract
 
 The investigation response must be structured.
 
@@ -1218,7 +1262,9 @@ Example:
 
 ---
 
-# 23. AI-Generated Customer Communication
+<a id="section-23-ai-generated-customer-communication"></a>
+
+## 23. AI-Generated Customer Communication
 
 For discrepancies requiring customer communication, the AI must create a draft.
 
@@ -1226,13 +1272,13 @@ The AI must not invent financial facts.
 
 The draft must be based on:
 
-* PostgreSQL records
-* verified amounts
-* verified invoice
-* verified payment
-* verified root cause
-* approved policy
-* investigation result
+- PostgreSQL records
+- verified amounts
+- verified invoice
+- verified payment
+- verified root cause
+- approved policy
+- investigation result
 
 For an overpayment:
 
@@ -1263,7 +1309,9 @@ The actual amount must come from deterministic financial data.
 
 ---
 
-# 24. Human Approval Architecture
+<a id="section-24-human-approval-architecture"></a>
+
+## 24. Human Approval Architecture
 
 The investigation page must show all information required before approval.
 
@@ -1307,7 +1355,9 @@ status == AWAITING_HUMAN_APPROVAL
 
 ---
 
-# 25. Reject & Escalate Flow
+<a id="section-25-reject-and-escalate-flow"></a>
+
+## 25. Reject & Escalate Flow
 
 The transaction approval controls should be:
 
@@ -1345,7 +1395,9 @@ The admin must provide a rejection reason.
 
 ---
 
-# 26. Manager Escalation
+<a id="section-26-manager-escalation"></a>
+
+## 26. Manager Escalation
 
 When a transaction is escalated, the manager must receive the complete context.
 
@@ -1416,7 +1468,9 @@ Please review the investigation and determine the appropriate action.
 
 ---
 
-# 27. Manager Decision Flow
+<a id="section-27-manager-decision-flow"></a>
+
+## 27. Manager Decision Flow
 
 ```mermaid
 flowchart TD
@@ -1446,7 +1500,9 @@ flowchart TD
 
 ---
 
-# 28. Customer Payment Recovery
+<a id="section-28-customer-payment-recovery"></a>
+
+## 28. Customer Payment Recovery
 
 If the manager rejects an adjustment and determines that the customer owes money:
 
@@ -1472,7 +1528,9 @@ The transaction must not become resolved merely because the payment request was 
 
 ---
 
-# 29. Overpayment Refund Flow
+<a id="section-29-overpayment-refund-flow"></a>
+
+## 29. Overpayment Refund Flow
 
 Overpayment has a separate financial path.
 
@@ -1510,7 +1568,9 @@ If the admin chooses to apply the overpayment to another invoice instead, that m
 
 ---
 
-# 30. Accounting Provider
+<a id="section-30-accounting-provider"></a>
+
+## 30. Accounting Provider
 
 The system uses an abstraction:
 
@@ -1549,20 +1609,22 @@ The mock provider must maintain real internal accounting state.
 
 It must support:
 
-* accounts
-* balances
-* journal entries
-* refunds
-* receivables
-* external IDs
-* idempotency
-* validation
-* failure simulation
-* verification
+- accounts
+- balances
+- journal entries
+- refunds
+- receivables
+- external IDs
+- idempotency
+- validation
+- failure simulation
+- verification
 
 ---
 
-# 31. Journal Entry Execution
+<a id="section-31-journal-entry-execution"></a>
+
+## 31. Journal Entry Execution
 
 For a $500 approved discount:
 
@@ -1586,7 +1648,9 @@ The journal must not be created directly from the browser.
 
 ---
 
-# 32. Verification
+<a id="section-32-verification"></a>
+
+## 32. Verification
 
 After a financial action:
 
@@ -1612,7 +1676,9 @@ Verification must be deterministic.
 
 ---
 
-# 33. Financial State Machine
+<a id="section-33-financial-state-machine"></a>
+
+## 33. Financial State Machine
 
 ```mermaid
 stateDiagram-v2
@@ -1663,7 +1729,9 @@ status = APPROVED
 
 ---
 
-# 34. Frontend Architecture
+<a id="section-34-frontend-architecture"></a>
+
+## 34. Frontend Architecture
 
 The frontend is a finance control room.
 
@@ -1683,7 +1751,9 @@ Every page should have contextual search.
 
 ---
 
-# 35. Financial Close Dashboard
+<a id="section-35-financial-close-dashboard"></a>
+
+## 35. Financial Close Dashboard
 
 The main page should show:
 
@@ -1712,7 +1782,9 @@ Discrepancy Type Filter
 
 ---
 
-# 36. Transaction List
+<a id="section-36-transaction-list"></a>
+
+## 36. Transaction List
 
 Each transaction should display:
 
@@ -1751,7 +1823,9 @@ Each discrepancy transaction should have:
 
 ---
 
-# 37. Transaction Investigation Page
+<a id="section-37-transaction-investigation-page"></a>
+
+## 37. Transaction Investigation Page
 
 The page should be organized for an administrator.
 
@@ -1797,7 +1871,9 @@ Approval
 
 ---
 
-# 38. Evidence Presentation
+<a id="section-38-evidence-presentation"></a>
+
+## 38. Evidence Presentation
 
 Do not display only logs such as:
 
@@ -1829,7 +1905,9 @@ Confidence:
 
 ---
 
-# 39. Agent Findings UI
+<a id="section-39-agent-findings-ui"></a>
+
+## 39. Agent Findings UI
 
 Each agent should have a visible section.
 
@@ -1887,7 +1965,9 @@ Confidence:
 
 ---
 
-# 40. Customer Email Draft UI
+<a id="section-40-customer-email-draft-ui"></a>
+
+## 40. Customer Email Draft UI
 
 The complete AI-generated customer email must appear above the approval buttons.
 
@@ -1936,7 +2016,9 @@ The complete draft must be visible before the administrator decides.
 
 ---
 
-# 41. Manager Escalation UI
+<a id="section-41-manager-escalation-ui"></a>
+
+## 41. Manager Escalation UI
 
 When escalated, show:
 
@@ -1977,7 +2059,9 @@ The manager must receive the full decision context.
 
 ---
 
-# 42. Search and Filtering
+<a id="section-42-search-and-filtering"></a>
+
+## 42. Search and Filtering
 
 The main financial close page requires:
 
@@ -1987,12 +2071,12 @@ Search transactions
 
 Search should support:
 
-* transaction ID
-* customer name
-* invoice ID
-* payment ID
-* account
-* discrepancy type
+- transaction ID
+- customer name
+- invoice ID
+- payment ID
+- account
+- discrepancy type
 
 Filters:
 
@@ -2010,7 +2094,9 @@ Filtering must be backend-aware where datasets become large.
 
 ---
 
-# 43. Contextual Page Search
+<a id="section-43-contextual-page-search"></a>
+
+## 43. Contextual Page Search
 
 Every page should have a search control relevant to that page.
 
@@ -2035,7 +2121,7 @@ Reports
 
 ---
 
-## Search result dismissal
+### Search result dismissal
 
 If a search result panel is open:
 
@@ -2051,7 +2137,9 @@ Clicking `X` must:
 
 ---
 
-# 44. Navigation and Back Behavior
+<a id="section-44-navigation-and-back-behavior"></a>
+
+## 44. Navigation and Back Behavior
 
 The transaction page must preserve the page from which the administrator arrived.
 
@@ -2087,17 +2175,19 @@ Financial Close
 
 If the transaction was opened from a filtered result, preserve:
 
-* search query
-* filters
-* period
-* pagination
-* sort
+- search query
+- filters
+- period
+- pagination
+- sort
 
 where possible.
 
 ---
 
-# 45. User Account Records
+<a id="section-45-user-account-records"></a>
+
+## 45. User Account Records
 
 When an administrator clicks:
 
@@ -2127,7 +2217,9 @@ The frontend must not guess the user's records.
 
 ---
 
-# 46. Frontend State Synchronization
+<a id="section-46-frontend-state-synchronization"></a>
+
+## 46. Frontend State Synchronization
 
 The frontend does not own financial state.
 
@@ -2168,13 +2260,15 @@ No manual refresh should be required.
 
 For long-running investigations use:
 
-* polling
-* SSE
-* WebSockets
+- polling
+- SSE
+- WebSockets
 
 ---
 
-# 47. API Architecture
+<a id="section-47-api-architecture"></a>
+
+## 47. API Architecture
 
 The frontend communicates exclusively through FastAPI.
 
@@ -2196,7 +2290,9 @@ Filtering
 
 ---
 
-# 48. API Endpoints
+<a id="section-48-api-endpoints"></a>
+
+## 48. API Endpoints
 
 Suggested endpoints:
 
@@ -2258,7 +2354,9 @@ REJECTED
 
 ---
 
-# 49. Data Model
+<a id="section-49-data-model"></a>
+
+## 49. Data Model
 
 Core tables:
 
@@ -2302,7 +2400,9 @@ idempotency_keys
 
 ---
 
-# 50. Investigation Persistence
+<a id="section-50-investigation-persistence"></a>
+
+## 50. Investigation Persistence
 
 An investigation should persist:
 
@@ -2346,7 +2446,9 @@ workflow_version
 
 ---
 
-# 51. Redis and ARQ
+<a id="section-51-redis-and-arq"></a>
+
+## 51. Redis and ARQ
 
 Long-running investigations must not depend on an open HTTP request.
 
@@ -2370,25 +2472,27 @@ flowchart LR
 
 Benefits:
 
-* retries
-* concurrency
-* worker recovery
-* durable job execution
-* asynchronous investigation
+- retries
+- concurrency
+- worker recovery
+- durable job execution
+- asynchronous investigation
 
 ---
 
-# 52. LangGraph Persistence
+<a id="section-52-langgraph-persistence"></a>
+
+## 52. LangGraph Persistence
 
 LangGraph must support:
 
-* durable state
-* checkpointing
-* interruption
-* human approval
-* manager approval
-* resume
-* worker restart
+- durable state
+- checkpointing
+- interruption
+- human approval
+- manager approval
+- resume
+- worker restart
 
 Required flow:
 
@@ -2406,7 +2510,9 @@ Command resume
 
 ---
 
-# 53. LLM Provider Architecture
+<a id="section-53-llm-provider-architecture"></a>
+
+## 53. LLM Provider Architecture
 
 LLM calls should go through a backend abstraction.
 
@@ -2426,7 +2532,9 @@ The workflow must not be tightly coupled to one provider endpoint.
 
 ---
 
-# 54. LLM Fallback Strategy
+<a id="section-54-llm-fallback-strategy"></a>
+
+## 54. LLM Fallback Strategy
 
 Primary investigation model:
 
@@ -2492,7 +2600,9 @@ Do not silently hide that fallback occurred.
 
 ---
 
-# 55. Insight Schema
+<a id="section-55-insight-schema"></a>
+
+## 55. Insight Schema
 
 The current error:
 
@@ -2556,7 +2666,9 @@ flowchart LR
 
 ---
 
-# 56. AgentMail
+<a id="section-56-agentmail"></a>
+
+## 56. AgentMail
 
 AgentMail is responsible for sending approved customer communication.
 
@@ -2584,7 +2696,9 @@ The draft is visible to the administrator first.
 
 ---
 
-# 57. Notification Failure Semantics
+<a id="section-57-notification-failure-semantics"></a>
+
+## 57. Notification Failure Semantics
 
 Financial state and notifications are separate.
 
@@ -2626,7 +2740,9 @@ must not automatically roll back a persisted financial decision.
 
 ---
 
-# 58. Security
+<a id="section-58-security"></a>
+
+## 58. Security
 
 Security boundaries:
 
@@ -2657,17 +2773,19 @@ flowchart LR
 
 The browser must never have credentials for:
 
-* PostgreSQL
-* Pinecone
-* Neo4j
-* Slack
-* AgentMail
-* Accounting Provider
-* LLM Provider
+- PostgreSQL
+- Pinecone
+- Neo4j
+- Slack
+- AgentMail
+- Accounting Provider
+- LLM Provider
 
 ---
 
-# 59. Authentication and Authorization
+<a id="section-59-authentication-and-authorization"></a>
+
+## 59. Authentication and Authorization
 
 Every privileged action requires:
 
@@ -2694,7 +2812,9 @@ Has this action already happened?
 
 ---
 
-# 60. Idempotency
+<a id="section-60-idempotency"></a>
+
+## 60. Idempotency
 
 Every financial mutation must be idempotent.
 
@@ -2730,7 +2850,9 @@ must never create two journal entries.
 
 ---
 
-# 61. Accounting Period Safety
+<a id="section-61-accounting-period-safety"></a>
+
+## 61. Accounting Period Safety
 
 Every transaction belongs to an accounting period.
 
@@ -2770,7 +2892,9 @@ No silent modifications.
 
 ---
 
-# 62. Auditability
+<a id="section-62-auditability"></a>
+
+## 62. Auditability
 
 Every financial mutation must record:
 
@@ -2803,47 +2927,49 @@ Was the transaction actually reconciled?
 
 ---
 
-# 63. Observability
+<a id="section-63-observability"></a>
+
+## 63. Observability
 
 Track:
 
 ### Workflow
 
-* investigation duration
-* agent duration
-* queue latency
-* retries
-* failure rate
-* approval latency
-* escalation latency
+- investigation duration
+- agent duration
+- queue latency
+- retries
+- failure rate
+- approval latency
+- escalation latency
 
 ### Retrieval
 
-* retrieval latency
-* relevance
-* reranker scores
-* evidence count
-* retrieval failures
+- retrieval latency
+- relevance
+- reranker scores
+- evidence count
+- retrieval failures
 
 ### LLM
 
-* model
-* provider
-* latency
-* token usage
-* structured-output failures
-* fallback count
-* fallback reason
+- model
+- provider
+- latency
+- token usage
+- structured-output failures
+- fallback count
+- fallback reason
 
 ### Financial
 
-* discrepancy count
-* discrepancy value
-* unresolved value
-* refunds
-* adjustments
-* payment recovery
-* resolved investigations
+- discrepancy count
+- discrepancy value
+- unresolved value
+- refunds
+- adjustments
+- payment recovery
+- resolved investigations
 
 Langfuse should trace:
 
@@ -2859,7 +2985,9 @@ ARQ Job
 
 ---
 
-# 64. Evaluation
+<a id="section-64-evaluation"></a>
+
+## 64. Evaluation
 
 Maintain a golden dataset containing:
 
@@ -2876,52 +3004,54 @@ expected final state
 
 Evaluate:
 
-* discrepancy detection
-* root cause accuracy
-* evidence relevance
-* retrieval precision
-* policy compliance
-* recommendation correctness
-* hallucination
-* structured output validity
-* confidence calibration
-* state transition correctness
-* final resolution correctness
+- discrepancy detection
+- root cause accuracy
+- evidence relevance
+- retrieval precision
+- policy compliance
+- recommendation correctness
+- hallucination
+- structured output validity
+- confidence calibration
+- state transition correctness
+- final resolution correctness
 
 ---
 
-# 65. Testing Strategy
+<a id="section-65-testing-strategy"></a>
 
-## Unit Tests
+## 65. Testing Strategy
 
-Test:
-
-* reconciliation
-* overpayment detection
-* journal validation
-* refund calculation
-* policy rules
-* authorization
-* state transitions
-* idempotency
-* Pydantic schemas
-
-## Integration Tests
+### Unit Tests
 
 Test:
 
-* PostgreSQL
-* Redis
-* Pinecone
-* Neo4j
-* AccountingProvider
-* AgentMail
-* Slack
-* LLM provider
+- reconciliation
+- overpayment detection
+- journal validation
+- refund calculation
+- policy rules
+- authorization
+- state transitions
+- idempotency
+- Pydantic schemas
 
-## Workflow Tests
+### Integration Tests
 
-### Investigation
+Test:
+
+- PostgreSQL
+- Redis
+- Pinecone
+- Neo4j
+- AccountingProvider
+- AgentMail
+- Slack
+- LLM provider
+
+### Workflow Tests
+
+#### Investigation
 
 ```text
 Discrepancy
@@ -2932,7 +3062,7 @@ Discrepancy
 → Human Review
 ```
 
-### Approval
+#### Approval
 
 ```text
 Approve
@@ -2942,14 +3072,14 @@ Approve
 → Resolved
 ```
 
-### Rejection
+#### Rejection
 
 ```text
 Reject & Escalate
 → Manager
 ```
 
-### Manager Rejection
+#### Manager Rejection
 
 ```text
 Manager Reject
@@ -2960,7 +3090,7 @@ Manager Reject
 → Resolved
 ```
 
-### Overpayment
+#### Overpayment
 
 ```text
 Overpayment
@@ -2972,7 +3102,7 @@ Overpayment
 → Verification
 ```
 
-### Fallback
+#### Fallback
 
 ```text
 Llama 3.3 70B
@@ -2983,7 +3113,9 @@ Llama 3.3 70B
 
 ---
 
-# 66. Failure and Recovery
+<a id="section-66-failure-and-recovery"></a>
+
+## 66. Failure and Recovery
 
 If investigation fails:
 
@@ -3016,7 +3148,9 @@ No investigation should depend on process memory alone.
 
 ---
 
-# 67. Deployment Architecture
+<a id="section-67-deployment-architecture"></a>
+
+## 67. Deployment Architecture
 
 ```mermaid
 flowchart TB
@@ -3069,7 +3203,9 @@ The API must remain responsive while investigations run asynchronously.
 
 ---
 
-# 68. Environment Variables
+<a id="section-68-environment-variables"></a>
+
+## 68. Environment Variables
 
 `.env.example`:
 
@@ -3119,28 +3255,32 @@ NEXT_PUBLIC_*
 
 ---
 
-# 69. External Services
+<a id="section-69-external-services"></a>
 
-| Service            | Purpose                       | Requirement |
-| ------------------ | ----------------------------- | ----------- |
-| PostgreSQL         | Source of truth               | Required    |
-| Redis              | Queue/workflow infrastructure | Required    |
-| ARQ                | Background jobs               | Required    |
-| Pinecone           | Investigation memory          | Required    |
-| Neo4j              | Financial relationship graph  | Recommended |
-| Llama 3.3 70B      | Primary reasoning             | Required    |
-| Llama 3.1 8B       | Fallback reasoning            | Required    |
-| Qwen2.5-VL-72B     | Vision/document intelligence  | Required    |
-| AgentMail          | Customer email                | Required    |
-| Slack              | Manager escalation            | Recommended |
-| AccountingProvider | Financial mutation            | Required    |
-| Langfuse           | AI observability              | Recommended |
+## 69. External Services
+
+| Service | Purpose | Requirement |
+|---|---|---|
+| PostgreSQL | Source of truth | Required |
+| Redis | Queue/workflow infrastructure | Required |
+| ARQ | Background jobs | Required |
+| Pinecone | Investigation memory | Required |
+| Neo4j | Financial relationship graph | Recommended |
+| Llama 3.3 70B | Primary reasoning | Required |
+| Llama 3.1 8B | Fallback reasoning | Required |
+| Qwen2.5-VL-72B | Vision/document intelligence | Required |
+| AgentMail | Customer email | Required |
+| Slack | Manager escalation | Recommended |
+| AccountingProvider | Financial mutation | Required |
+| Langfuse | AI observability | Recommended |
 
 ---
 
-# 70. Technology Stack
+<a id="section-70-technology-stack"></a>
 
-## Backend
+## 70. Technology Stack
+
+### Backend
 
 ```text
 Python
@@ -3153,7 +3293,7 @@ ARQ
 Pydantic
 ```
 
-## AI
+### AI
 
 ```text
 Llama 3.3 70B Instruct
@@ -3166,7 +3306,7 @@ Hybrid RAG
 Graph RAG
 ```
 
-## Data
+### Data
 
 ```text
 PostgreSQL
@@ -3175,7 +3315,7 @@ Neo4j
 Redis
 ```
 
-## Frontend
+### Frontend
 
 ```text
 Next.js
@@ -3185,7 +3325,7 @@ React Query
 Tailwind CSS
 ```
 
-## Integrations
+### Integrations
 
 ```text
 AgentMail
@@ -3193,7 +3333,7 @@ Slack
 AccountingProvider
 ```
 
-## Observability
+### Observability
 
 ```text
 Langfuse
@@ -3202,9 +3342,11 @@ Prometheus-compatible metrics
 
 ---
 
-# 71. Design Tradeoffs
+<a id="section-71-design-tradeoffs"></a>
 
-## LLM vs Deterministic Code
+## 71. Design Tradeoffs
+
+### LLM vs Deterministic Code
 
 Use deterministic code for:
 
@@ -3229,9 +3371,9 @@ Communication
 
 ---
 
-## Automatic Investigation vs Explicit Investigation
+### Automatic Investigation vs Explicit Investigation
 
-### Decision
+#### Decision
 
 Do not automatically investigate every transaction.
 
@@ -3241,15 +3383,15 @@ The administrator chooses which discrepancy requires AI investigation.
 
 This prevents:
 
-* unnecessary LLM cost
-* unnecessary investigation jobs
-* noisy AI results
-* unnecessary workflow state
-* excessive model usage
+- unnecessary LLM cost
+- unnecessary investigation jobs
+- noisy AI results
+- unnecessary workflow state
+- excessive model usage
 
 ---
 
-## One Model vs Multiple Models
+### One Model vs Multiple Models
 
 Use different models where appropriate.
 
@@ -3266,7 +3408,7 @@ Qwen2.5-VL-72B
 
 ---
 
-## Vector RAG vs Graph RAG
+### Vector RAG vs Graph RAG
 
 Vector search is useful for:
 
@@ -3290,7 +3432,7 @@ SQL remains preferred for authoritative structured financial data.
 
 ---
 
-## Pinecone vs PostgreSQL
+### Pinecone vs PostgreSQL
 
 PostgreSQL:
 
@@ -3308,18 +3450,18 @@ Never reverse these roles.
 
 ---
 
-## Human Approval vs Autonomous Execution
+### Human Approval vs Autonomous Execution
 
 The system deliberately sacrifices some autonomy to preserve:
 
-* control
-* accountability
-* auditability
-* financial safety
+- control
+- accountability
+- auditability
+- financial safety
 
 ---
 
-## Llama 3.3 70B vs Llama 3.1 8B
+### Llama 3.3 70B vs Llama 3.1 8B
 
 The larger model is preferred for complex reasoning.
 
@@ -3329,7 +3471,9 @@ The fallback must still satisfy the same structured output contract.
 
 ---
 
-# 72. Example Investigation
+<a id="section-72-example-investigation"></a>
+
+## 72. Example Investigation
 
 Consider:
 
@@ -3498,7 +3642,9 @@ The manager receives the complete investigation and AI-generated escalation draf
 
 ---
 
-# 73. Repository Structure
+<a id="section-73-repository-structure"></a>
+
+## 73. Repository Structure
 
 ```text
 financial-close/
@@ -3578,71 +3724,46 @@ financial-close/
 
 ---
 
-# 74. Development Principles
+<a id="section-74-development-principles"></a>
+
+## 74. Development Principles
 
 1. Prefer deterministic systems when deterministic systems are sufficient.
-
 2. Do not investigate every transaction automatically.
-
 3. Let administrators explicitly trigger expensive investigations.
-
 4. Give the LLM the smallest useful responsibility.
-
 5. Persist important state before starting long-running work.
-
 6. Never trust frontend state for authorization.
-
 7. Never let an LLM directly mutate financial records.
-
 8. Every financial mutation must be idempotent.
-
 9. Every important conclusion should have evidence.
-
 10. Every retrieved document should expose relevance and confidence where available.
-
 11. Show the actual finding, not only operational logs.
-
 12. Every investigation must expose its root cause.
-
 13. Every investigation must expose its recommendation.
-
 14. Generate customer communication from verified financial facts.
-
 15. Show the complete customer draft before approval.
-
 16. Rejected recommendations escalate to management.
-
 17. Manager escalation must contain the full investigation context.
-
 18. Slack actions must route through authenticated backend endpoints.
-
 19. The browser must never access privileged financial services.
-
 20. PostgreSQL is the source of truth.
-
 21. Pinecone is precedent memory.
-
 22. Neo4j is relationship context.
-
 23. Retrieval results are evidence, not authority.
-
 24. Closed accounting periods require explicit controls.
-
 25. Financial actions must be verified after execution.
-
 26. Notification failure must not incorrectly mark a successful financial operation as failed.
-
 27. LLM fallback must preserve the same output contract.
-
 28. AI-generated text must never override deterministic financial facts.
-
 29. Human approval is a system boundary, not merely a UI button.
-
 30. The frontend reflects backend state; it does not own financial state.
 
 ---
 
-# 75. Final Architecture
+<a id="section-75-final-architecture"></a>
+
+## 75. Final Architecture
 
 The complete system behaves as follows:
 
@@ -3753,7 +3874,7 @@ flowchart TB
     MANAGER --> PG
 ```
 
-## Final System Principle
+### Final System Principle
 
 The Financial Close Agent is not an autonomous accounting bot.
 
