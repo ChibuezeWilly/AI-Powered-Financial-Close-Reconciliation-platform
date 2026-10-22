@@ -245,9 +245,14 @@ def seed_all(db: Session) -> dict:
             db.merge(
                 JournalEntry(
                     id=je_id,
-                    description=f"Journal entry for invoice {inv_id}",
+                    transaction_id=None,
+                    debit_account="1200",
+                    credit_account="4100",
+                    amount=total,
+                    description=f"Invoice {inv_id}",
                     accounting_period=period,
-                    posted_date=str(inv_date),
+                    status="POSTED",
+                    provider_id="TALLYFLOW_SEED",
                 )
             )
 
