@@ -1,4 +1,216 @@
-# AI Financial Close & Reconciliation Platform
+# TallyFlow AI-Powered Financial Close & Reconciliation Platform
+
+### AI-Powered Financial Close & Reconciliation Platform · Fintech · AI automation
+
+**Turn financial discrepancies into explainable, reviewable reconciliation workflows.**
+
+TallyFlow is an AI-powered financial reconciliation platform designed to help finance teams investigate discrepancies across invoices, payments, and accounting records.
+
+Instead of relying entirely on manual comparisons and spreadsheet-based investigations, TallyFlow combines deterministic transaction matching with AI-assisted document understanding and investigation.
+
+The system identifies potential matches, investigates exceptions, gathers supporting evidence, and routes consequential decisions for human approval.
+
+- **Live Demo:** [Open Web App](https://ai-powered-financial-close-system.vercel.app)
+
+---
+
+## 1. Project Introduction
+
+### The problem
+
+Financial reconciliation is a repetitive but important part of accounting operations.
+
+Finance teams often need to compare information across:
+- Invoices.
+- Payment records.
+- Bank transactions.
+- General ledger entries.
+- Supporting financial documents.
+
+The information may be incomplete, formatted differently, duplicated, or inconsistent.
+
+A transaction that appears unmatched may require additional investigation before anyone can determine whether it is a genuine discrepancy, a timing difference, or a data-entry problem.
+
+Traditional workflows can involve hours of manual comparisons, document inspection, and back-and-forth investigation.
+
+### The solution
+
+TallyFlow combines deterministic reconciliation rules with AI-assisted investigation.
+
+The platform uses structured financial data, document extraction, and contextual retrieval to identify potential matches and investigate exceptions.
+
+AI helps explain discrepancies and gather relevant evidence, while deterministic logic handles matching rules and humans retain control over consequential financial decisions.
+
+**The objective is not to let AI decide what happens to financial records. It is to reduce the work required to understand them.**
+
+## 2. Video Demonstration
+
+**[Video demonstration coming soon]**
+
+The walkthrough will demonstrate:
+
+1. Importing financial records.
+2. Extracting information from supporting documents.
+3. Matching invoices and payments.
+4. Identifying unmatched transactions.
+5. Investigating discrepancies with AI.
+6. Reviewing supporting evidence.
+7. Approving or rejecting proposed actions.
+
+## 3. Screenshots
+
+| Interface | Screenshot |
+| :--- | :--- |
+| **Operations Overview** | ![Operations Overview](docs/images/dashboard.png) |
+| **Financial Close & Reconciliation** | ![Financial Close & Reconciliation](docs/images/financial-close.png) |
+| **Discrepancy Resolution Watch** | ![Discrepancy Resolution Watch](docs/images/discrepancies.png) |
+| **Discrepancy Investigation** | ![Discrepancy Investigation](docs/images/investigation.png) |
+| **Multi-Database Evidence & Graph** | ![Multi-Database Evidence & Graph](docs/images/evidence-graph.png) |
+| **General Ledger Accounts** | ![General Ledger Accounts](docs/images/ledger-accounts.png) |
+| **Human-in-the-Loop Approvals** | ![Human-in-the-Loop Approvals](docs/images/approval-workflow.png) |
+
+
+
+## 4. Key Capabilities
+
+### Financial document understanding
+
+Use OCR and Qwen2.5-VL to extract relevant information from financial documents.
+
+The goal is to convert unstructured documents into information that can be used during reconciliation.
+
+### Deterministic transaction matching
+
+Use application logic to compare financial records and identify potential matches.
+
+Matching decisions should be grounded in structured fields and explicit reconciliation rules rather than relying on an LLM to perform financial calculations.
+
+### AI-assisted discrepancy investigation
+
+Investigate unmatched or inconsistent records using contextual information from financial documents and accounting data.
+
+### Hybrid and Graph RAG
+
+Combine hybrid retrieval with graph-based relationships to retrieve relevant financial context.
+
+The architecture uses PostgreSQL and Neo4j to support structured data and relationship-based investigation.
+
+### Stateful investigation workflows
+
+Use LangGraph to orchestrate multi-step investigations and maintain workflow state.
+
+### Human approval
+
+Require human review before consequential financial changes are applied.
+
+The system separates investigation recommendations from actual financial operations.
+
+## 5. Technology Stack
+
+| Layer | Technologies |
+|---|---|
+| Backend | Python, FastAPI |
+| AI orchestration | LangGraph |
+| Vision and document understanding | Qwen2.5-VL, OCR |
+| Database | PostgreSQL |
+| Graph database | Neo4j |
+| Retrieval | Hybrid RAG, Graph RAG |
+| Background processing | Redis, ARQ |
+| AI integration | LLM-based investigation |
+| Workflow control | Checkpointing, human approval |
+
+### Clone the repository
+
+```bash
+git clone https://github.com/ChibuezeWilly/AI-Powered-Financial-Close-Reconciliation-platform.git
+cd AI-Powered-Financial-Close-Reconciliation-platform
+```
+
+### Configure the environment
+
+Create the local environment file using the repository's example configuration.
+
+Configure the relevant services:
+
+- PostgreSQL connection.
+- Neo4j connection.
+- Redis connection.
+- LLM or model provider.
+- Document-processing configuration.
+
+### Install dependencies
+
+Use the dependency manager and installation instructions specified in the repository.
+
+### Initialize services
+
+Start PostgreSQL, Neo4j, and Redis using the configured development environment.
+
+Run database migrations and any required initialization tasks.
+
+### Start the application
+
+Use the backend development command documented in the repository.
+
+**Note:** Exact installation commands, environment variable names, and service initialization steps should match the current repository configuration. They are intentionally not guessed here.
+
+### Reconciliation logic
+- Exact transaction matching.
+- Partial and ambiguous matches.
+- Duplicate records.
+- Missing financial fields.
+- Numerical precision and currency handling.
+- Unmatched transaction detection.
+
+### Document processing
+- Document extraction.
+- OCR output validation.
+- Structured field extraction.
+- Missing or inconsistent information.
+
+### AI investigation
+- Retrieval relevance.
+- Graph relationship traversal.
+- Investigation workflow execution.
+- Evidence generation.
+- Checkpoint persistence and recovery.
+
+### Financial safeguards
+- Human approval requirements.
+- Rejection of proposed actions.
+- Prevention of unauthorized financial changes.
+
+Run the actual test suite using the commands defined in the repository.
+
+## 10. Current Status and Limitations
+
+TallyFlow is an independent engineering project focused on reducing manual financial reconciliation work.
+
+### Implemented engineering areas
+
+- Financial reconciliation workflow.
+- Deterministic transaction matching.
+- AI-assisted discrepancy investigation.
+- Document understanding with Qwen2.5-VL and OCR.
+- Hybrid and Graph RAG architecture.
+- PostgreSQL and Neo4j integration.
+- LangGraph orchestration.
+- Persistent workflow state.
+- Redis and ARQ background processing.
+- Human approval for consequential actions.
+
+### Projected impact
+
+The project targets a **35% reduction in manual reconciliation effort**.
+
+This is a project target/claimed improvement, not a guarantee of savings across all financial environments. It should be supported by a measured benchmark before being presented as independently verified production performance.
+
+**Design principle:** Deterministic logic handles financial matching, AI investigates exceptions, and humans approve consequential financial actions.
+
+---
+
+*TallyFlow is an independent engineering project exploring how AI can reduce the manual effort involved in financial close and reconciliation without sacrificing control or accountability.*
+:::
 
 ## Architecture Design
 
